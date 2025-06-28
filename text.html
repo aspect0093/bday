@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy Birthday!</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background-color: #1a1a2e;
+      overflow: hidden;
+    }
+
+    .typing-dots::after {
+      content: '';
+      display: inline-block;
+      width: 1em;
+      text-align: left;
+      animation: dots 1.2s steps(3, end) infinite;
+    }
+
+    @keyframes dots {
+      0% { content: ''; }
+      33% { content: '.'; }
+      66% { content: '..'; }
+      100% { content: '...'; }
+    }
+
+    .chat-bubble::after {
+      content: '';
+      position: absolute;
+      bottom: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 15px solid transparent;
+      border-right: 15px solid transparent;
+      border-top: 15px solid #2d3748;
+    }
+  </style>
+</head>
+<body class="flex justify-center items-center min-h-screen font-sans text-gray-100">
+
+  <div id="introContainer" class="flex flex-col items-center opacity-0 transform translate-y-5 transition-all duration-1000 ease-out">
+    <img src="https://cdn.discordapp.com/attachments/1360488961759383622/1386732722633969795/1000098579-removebg-preview.png?ex=685ac6fd&is=6859757d&hm=26b4f2f7d2cebfebf7990ea11711458e8f969cc7cbf58c0a61e3f1033fbfc816&" 
+         alt="Character" 
+         class="max-w-xs h-auto rounded-xl shadow-2xl mb-8"/>
+
+    <div class="chat-bubble relative bg-gray-800 text-white p-6 rounded-xl shadow-lg max-w-xl text-center">
+      <span id="typingAnimationText" class="text-lg sm:text-2xl font-medium leading-relaxed"></span>
+      <span id="dots" class="typing-dots text-lg sm:text-2xl font-medium ml-1"></span>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const typingTextElement = document.getElementById('typingAnimationText');
+      const introContainer = document.getElementById('introContainer');
+      const dots = document.getElementById('dots');
+
+      const fullText = "So you actually opened it... You might not recognize me ig Let’s begin.";
+
+      let charIndex = 0;
+      const typingSpeed = 60;
+
+      function type() {
+        if (charIndex < fullText.length) {
+          typingTextElement.textContent += fullText.charAt(charIndex);
+          charIndex++;
+          setTimeout(type, typingSpeed);
+        } else {
+          dots.style.display = 'none';
+          // Optional: proceed to birthday page after delay
+          setTimeout(() => {
+            window.location.href = "birthday.html"; // Change to your actual birthday page
+          }, 2000);
+        }
+      }
+
+      // Reveal container, then start typing
+      setTimeout(() => {
+        introContainer.classList.remove('opacity-0', 'translate-y-5');
+        introContainer.classList.add('opacity-100', 'translate-y-0');
+        setTimeout(type, 1200);
+      }, 400);
+    });
+  </script>
+</body>
+</html>

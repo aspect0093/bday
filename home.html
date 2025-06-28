@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Day</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden; /* Prevents scrollbars during animations */
+        }
+        .font-playfair {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* --- Scene Setup --- */
+        .scene {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+            opacity: 0;
+            transform: scale(1.1);
+            pointer-events: none; /* Allows clicks to pass through hidden scenes */
+        }
+        .scene.active {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto; /* Enable clicks on the active scene */
+        }
+        .scene.hidden {
+             opacity: 0;
+             pointer-events: none;
+             transform: translateY(-100%);
+        }
+
+        /* --- Starry Night Background --- */
+        #star-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+            transition: opacity 2s ease-in-out;
+        }
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle 5s infinite;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        /* --- Envelope --- */
+        #envelope {
+            cursor: pointer;
+            transition: transform 0.5s ease-in-out;
+        }
+        #envelope:hover {
+            transform: translateY(-20px) scale(1.05);
+        }
+        .envelope-flap {
+            transition: transform 0.8s ease-in-out;
+            transform-origin: top center;
+        }
+        #envelope.open .envelope-flap {
+            transform: rotateX(-180deg);
+        }
+        .letter {
+            transition: transform 0.8s ease-in-out 0.5s;
+            transform: translateY(0);
+        }
+        #envelope.open .letter {
+            transform: translateY(-150px);
+        }
+
+        /* --- Message Animation --- */
+        .message-line {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 1s forwards;
+        }
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* --- Confetti --- */
+        #confetti-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 10;
+        }
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            opacity: 0.7;
+            animation: fall 5s linear forwards;
+        }
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* --- Gift Box --- */
+        .gift-lid {
+            transition: transform 0.5s ease-out;
+        }
+        .gift-box:hover .gift-lid {
+            transform: translateY(-20px) rotate(10deg);
+        }
+
+        /* --- Heart Animation --- */
+        #final-heart {
+            opacity: 0;
+            transform: scale(0);
+            animation: beat 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            animation-delay: 0.5s;
+        }
+
+        @keyframes beat {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+    </style>
+</head>
+<body class="bg-gray-900 text-white">
+
+    <!-- Starry Background -->
+    <div id="star-container"></div>
+
+    <!-- Scene 1: The Invitation -->
+    <div id="scene1" class="scene active flex-col text-center">
+        <div id="envelope" class="relative">
+            <!-- Letter inside -->
+            <div class="letter absolute w-64 h-40 bg-white rounded-lg shadow-lg top-4 left-1/2 -translate-x-1/2"></div>
+            <!-- Envelope Body -->
+            <div class="relative w-64 h-40 bg-pink-400 rounded-lg shadow-xl">
+                 <div class="absolute w-full h-full bg-pink-300 rounded-lg" style="clip-path: polygon(0 0, 100% 0, 50% 50%);"></div>
+            </div>
+            <!-- Envelope Flap -->
+            <div class="envelope-flap absolute w-64 h-20 bg-pink-500 rounded-t-lg shadow-lg top-0 left-0" style="clip-path: polygon(0 0, 100% 0, 50% 100%);">
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-sm text-yellow-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                      <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <p class="mt-8 text-lg opacity-70 animate-pulse">Click the envelope</p>
+    </div>
+
+    <!-- Scene 2: The Poetic Message -->
+    <div id="scene2" class="scene flex-col text-center p-8 bg-black bg-opacity-50 rounded-lg">
+        <p class="message-line text-2xl md:text-3xl mb-4" style="animation-delay: 1s;">On the 30th of June, the world became a little brighter...</p>
+        <p class="message-line text-2xl md:text-3xl mb-4" style="animation-delay: 3s;">...a certain star started to shine...</p>
+        <p class="message-line text-2xl md:text-3xl" style="animation-delay: 5s;">...and that star was you.</p>
+        <button id="next-btn" class="message-line mt-12 px-6 py-3 bg-purple-600 rounded-full text-lg hover:bg-purple-500 transition-all transform hover:scale-105" style="animation-delay: 6.5s;">Continue</button>
+    </div>
+    
+    <!-- Scene 3: The Big Reveal -->
+    <div id="scene3" class="scene flex-col text-center transition-all duration-1000">
+         <div id="confetti-container"></div>
+         <h1 class="font-playfair text-6xl md:text-8xl lg:text-9xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-pink-400 to-purple-400 drop-shadow-lg" style="opacity:0; transform: translateY(50px);">Happy Birthday!</h1>
+         <p class="mt-8 text-3xl md:text-4xl" style="opacity:0; transform: translateY(50px);">Wishing you the most amazing day.</p>
+         <button id="gift-btn" class="mt-12 px-8 py-4 bg-teal-500 rounded-full text-lg hover:bg-teal-400 transition-all transform hover:scale-105" style="opacity:0; transform: translateY(50px);">I got you something...</button>
+    </div>
+
+    <!-- Scene 4: The Final Message & Gift -->
+    <div id="scene4" class="scene flex-col text-center p-8">
+        <div id="gift-box" class="gift-box cursor-pointer">
+            <div class="relative">
+                <div class="gift-lid w-40 h-8 bg-red-500 rounded-t-lg z-10 relative"></div>
+                <div class="w-40 h-32 bg-red-400 rounded-b-lg flex items-center justify-center">
+                    <div class="absolute w-4 h-full bg-yellow-300"></div>
+                    <div class="absolute w-full h-4 bg-yellow-300 top-1/2 -translate-y-1/2"></div>
+                </div>
+            </div>
+            <p class="mt-4">Click the gift!</p>
+        </div>
+        <div id="final-message" class="hidden text-center">
+             <svg id="final-heart" xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-heart-fill text-red-500 drop-shadow-lg mx-auto" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+            </svg>
+            <p class="font-playfair text-3xl md:text-4xl mt-6">Have the happiest of birthdays.</p>
+            <p class="text-xl mt-4 opacity-80">You deserve all the best.</p>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Elements ---
+            const scenes = document.querySelectorAll('.scene');
+            const envelope = document.getElementById('envelope');
+            const nextBtn = document.getElementById('next-btn');
+            const giftBtn = document.getElementById('gift-btn');
+            const giftBox = document.getElementById('gift-box');
+            const finalMessage = document.getElementById('final-message');
+            const starContainer = document.getElementById('star-container');
+            const confettiContainer = document.getElementById('confetti-container');
+
+            // --- Scene Management ---
+            function switchScene(sceneId) {
+                scenes.forEach(scene => {
+                    if (scene.id === sceneId) {
+                        scene.classList.add('active');
+                        scene.classList.remove('hidden');
+                    } else {
+                        scene.classList.remove('active');
+                        scene.classList.add('hidden');
+                    }
+                });
+            }
+
+            // --- Star Generation ---
+            function createStars() {
+                for (let i = 0; i < 100; i++) {
+                    const star = document.createElement('div');
+                    star.className = 'star';
+                    star.style.left = `${Math.random() * 100}%`;
+                    star.style.top = `${Math.random() * 100}%`;
+                    star.style.animationDelay = `${Math.random() * 5}s`;
+                    star.style.animationDuration = `${2 + Math.random() * 3}s`;
+                    const size = `${1 + Math.random() * 2}px`;
+                    star.style.width = size;
+                    star.style.height = size;
+                    starContainer.appendChild(star);
+                }
+            }
+
+            // --- Confetti Generation ---
+            function createConfetti() {
+                const colors = ['#f9a8d4', '#fde047', '#6ee7b7', '#93c5fd', '#c4b5fd'];
+                for (let i = 0; i < 150; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = `${Math.random() * 100}%`;
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    const size = `${5 + Math.random() * 10}px`;
+                    confetti.style.width = size;
+                    confetti.style.height = size;
+                    confetti.style.animationDelay = `${Math.random() * 2}s`;
+                    confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                    confettiContainer.appendChild(confetti);
+                }
+            }
+            
+            // --- Event Listeners ---
+
+            // 1. Click Envelope
+            envelope.addEventListener('click', () => {
+                envelope.classList.add('open');
+                setTimeout(() => {
+                    switchScene('scene2');
+                }, 1500); // Time for envelope animation
+            });
+
+            // 2. Click Next Button
+            nextBtn.addEventListener('click', () => {
+                // Transition background
+                document.body.style.transition = 'background-color 2s ease';
+                document.body.style.backgroundColor = '#111827'; // Dark blue-gray
+                starContainer.style.opacity = '0';
+
+                // Switch to scene 3 and trigger animations
+                switchScene('scene3');
+                createConfetti();
+                
+                const scene3Title = document.querySelector('#scene3 h1');
+                const scene3P = document.querySelector('#scene3 p');
+                const scene3Btn = document.querySelector('#scene3 button');
+
+                setTimeout(() => {
+                    scene3Title.style.opacity = '1';
+                    scene3Title.style.transform = 'translateY(0)';
+                    scene3Title.style.transition = 'all 1s ease-out';
+                }, 500);
+                 setTimeout(() => {
+                    scene3P.style.opacity = '1';
+                    scene3P.style.transform = 'translateY(0)';
+                    scene3P.style.transition = 'all 1s ease-out 0.5s';
+                }, 1000);
+                 setTimeout(() => {
+                    scene3Btn.style.opacity = '1';
+                    scene3Btn.style.transform = 'translateY(0)';
+                    scene3Btn.style.transition = 'all 1s ease-out 1s';
+                }, 1500);
+            });
+
+            // 3. Click Gift Button
+            giftBtn.addEventListener('click', () => {
+                 document.body.style.backgroundColor = '#1f2937'; // Slightly lighter
+                 switchScene('scene4');
+            });
+            
+            // 4. Click Gift Box
+            giftBox.addEventListener('click', () => {
+                giftBox.style.transition = 'transform 0.5s, opacity 0.5s';
+                giftBox.style.transform = 'scale(0)';
+                giftBox.style.opacity = '0';
+                setTimeout(() => {
+                    giftBox.classList.add('hidden');
+                    finalMessage.classList.remove('hidden');
+                }, 500);
+            });
+
+
+            // --- Initial Setup ---
+            createStars();
+        });
+    </script>
+</body>
+</html>
+

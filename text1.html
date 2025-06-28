@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Truly Special Day</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Pacifico&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #1a1a2e; /* Deep blue background */
+            overflow-x: hidden; /* Prevent horizontal scroll */
+            position: relative; /* Needed for absolute positioning of stars */
+        }
+        .font-pacifico {
+            font-family: 'Pacifico', cursive;
+        }
+        .text-glow {
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.3), 0 0 20px rgba(236, 72, 153, 0.4);
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+        }
+        .pizza-slice {
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
+            fill: #ffdd57; /* Pizza cheese yellow */
+        }
+        .pizza-slice:hover {
+            transform: scale(1.05) translate(-5px, -5px);
+            filter: drop-shadow(0 0 15px rgba(251, 191, 36, 0.7));
+        }
+        /* Adjusted hover colors for more subtle differentiation */
+        #slice-1:hover { fill: #ff7f50; } /* Coral */
+        #slice-2:hover { fill: #66cdaa; } /* Medium aquamarine */
+        #slice-3:hover { fill: #87ceeb; } /* Sky blue */
+        #slice-4:hover { fill: #ee82ee; } /* Violet */
+        #slice-5:hover { fill: #f08080; } /* Light coral */
+        #slice-6:hover { fill: #ffd700; } /* Gold */
+
+        /* --- New styles for animations and scroll indicator --- */
+
+        /* Floating animation */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .float-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Stars background */
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: -1; /* Behind content */
+        }
+        .star {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            opacity: 0;
+            animation: twinkle 3s infinite ease-in-out;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            z-index: 10;
+        }
+        .scroll-indicator.show {
+            opacity: 1;
+        }
+        .scroll-arrow {
+            font-size: 2rem;
+            animation: bounce 1.5s infinite;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+    </style>
+</head>
+<body class="text-white h-screen flex items-center justify-center">
+
+    <div class="stars" id="stars-background"></div>
+
+    <div id="initial-screen" class="text-center transition-opacity duration-1000">
+        <h1 class="text-4xl md:text-6xl font-bold mb-4 float-animation">Hey, Anne! ✨</h1> <p class="text-lg md:text-2xl mb-8 text-gray-300">Got a second for something truly special?</p>
+        <button id="start-button" class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-8 rounded-full text-lg transition-transform transform hover:scale-105">
+            Click Me!
+        </button>
+    </div>
+
+    <main id="main-content" class="hidden opacity-0 transition-opacity duration-1000 w-full h-full p-4 md:p-8 overflow-y-auto">
+        <div class="max-w-4xl mx-auto text-center">
+
+            <header class="py-12">
+                <h1 class="text-5xl md:text-7xl font-pacifico text-glow text-pink-400 float-animation">Happy Birthday, Anne! 💖</h1> <p class="text-xl md:text-2xl mt-4 text-gray-300">Hoping your day is as wonderfully radiant as you are.</p>
+            </header>
+
+            <section class="my-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 float-animation">You have a <span class="text-yellow-400">pizza</span> my heart!</h2> <p class="text-lg text-gray-400 mb-8">And since you're infinitely more amazing than pizza, I crafted this for you. Discover a special message with each slice!</p> <div class="relative w-full max-w-lg mx-auto">
+                    <svg viewBox="0 0 200 200" class="w-full h-full">
+                        <circle cx="100" cy="100" r="95" fill="#d2691e" />
+                        <circle cx="100" cy="100" r="85" fill="#ff6347" />
+                        <path id="slice-1" class="pizza-slice" d="M100 100 L25.4 46.5 A85 85 0 0 1 100 15 Z"></path>
+                        <path id="slice-2" class="pizza-slice" d="M100 100 L100 15 A85 85 0 0 1 174.6 46.5 Z"></path>
+                        <path id="slice-3" class="pizza-slice" d="M100 100 L174.6 46.5 A85 85 0 0 1 185 130 Z"></path>
+                        <path id="slice-4" class="pizza-slice" d="M100 100 L185 130 A85 85 0 0 1 100 185 Z"></path>
+                        <path id="slice-5" class="pizza-slice" d="M100 100 L100 185 A85 85 0 0 1 15 130 Z"></path>
+                        <path id="slice-6" class="pizza-slice" d="M100 100 L15 130 A85 85 0 0 1 25.4 46.5 Z"></path>
+                        <circle cx="70" cy="50" r="5" fill="#c0392b"></circle>
+                        <circle cx="130" cy="60" r="6" fill="#c0392b"></circle>
+                        <circle cx="160" cy="100" r="4" fill="#c0392b"></circle>
+                        <circle cx="80" cy="150" r="5" fill="#c0392b"></circle>
+                        <circle cx="50" cy="120" r="6" fill="#c0392b"></circle>
+                    </svg>
+                </div>
+            </section>
+
+            <section class="my-16">
+                <div class="card p-8 rounded-2xl">
+                    <h2 class="text-3xl font-bold mb-4">A little wish just for you...</h2> <p class="text-lg text-gray-300 mb-6">
+                        More than anything, I truly hope your day overflows with happiness, laughter, and every single dream coming true. You are an extraordinary person, and you absolutely deserve the very best that life has to offer.
+                    </p>
+                </div>
+            </section>
+
+            <section class="my-16">
+                <div class="card p-8 rounded-2xl">
+                    <h2 class="text-3xl font-bold mb-4">Leave a message</h2>
+                    <p class="text-lg text-gray-300 mb-6">
+                        lol I hope u liked it , it took like a month for me to make this
+also happy b day girl!
+                    </p>
+                    <div class="flex flex-col md:flex-row gap-4">
+                        <textarea id="anne-message" rows="3" class="flex-grow p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:ring-pink-500 focus:border-pink-500 placeholder-gray-400" placeholder="Type your message here..."></textarea>
+                        <button id="send-message-button" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-full transition-transform transform hover:scale-105">
+                            Send Message
+                        </button>
+                    </div>
+                    <p id="send-status" class="mt-4 text-sm"></p>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <div id="modal" class="hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50">
+        <div id="modal-content" class="card text-center p-8 rounded-2xl max-w-sm w-full transform transition-transform duration-300 scale-95">
+            <p id="modal-text" class="text-2xl font-semibold text-yellow-300"></p>
+            <button id="close-modal" class="mt-6 bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-6 rounded-full">Close</button>
+        </div>
+    </div>
+
+    <div id="scroll-indicator" class="scroll-indicator">
+        <span class="scroll-arrow">↓</span>
+        <span>Scroll Down</span>
+    </div>
+
+
+    <script>
+        // ✨ CUSTOMIZE ✨: Change the messages for each pizza slice here!
+        const sliceMessages = {
+            "slice-1": "Your incredible sense of humor always brings the brightest smiles to my face.",
+            "slice-2": "You possess the most genuinely beautiful and captivating smile.",
+            "slice-3": "Your kindness and compassion towards everyone are truly inspiring.",
+            "slice-4": "The sparkle in your eyes when you talk about your passions is something I find unforgettable.",
+            "slice-5": "You are brilliantly intelligent and consistently have the most insightful ideas.",
+            "slice-6": "Just being in your presence makes any moment infinitely better and brighter."
+        };
+
+        const startButton = document.getElementById('start-button');
+        const initialScreen = document.getElementById('initial-screen');
+        const mainContent = document.getElementById('main-content');
+        
+        const modal = document.getElementById('modal');
+        const modalContent = document.getElementById('modal-content');
+        const modalText = document.getElementById('modal-text');
+        const closeModalButton = document.getElementById('close-modal');
+        
+        const pizzaSlices = document.querySelectorAll('.pizza-slice');
+
+        // New elements for the message box
+        const anneMessageInput = document.getElementById('anne-message');
+        const sendMessageButton = document.getElementById('send-message-button');
+        const sendStatus = document.getElementById('send-status');
+
+        // New element for scroll indicator
+        const scrollIndicator = document.getElementById('scroll-indicator');
+        const starsBackground = document.getElementById('stars-background');
+
+        // ✨ CUSTOMIZE ✨: REPLACE WITH YOUR DISCORD BOT API ENDPOINT
+        const DISCORD_BOT_API_ENDPOINT = "http://in2.hostmc.fun:25944/send-message";
+
+        // ✨ CUSTOMIZE ✨: REPLACE WITH THE USER ID YOU WANT TO PING ON DISCORD
+        const YOUR_DISCORD_USER_ID = "1314859737703125025";
+
+        // Function to create and append stars
+        function createStars() {
+            for (let i = 0; i < 50; i++) { // Create 50 stars
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.width = star.style.height = `${Math.random() * 3 + 1}px`; // Random size between 1px and 4px
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.animationDelay = `${Math.random() * 3}s`; // Stagger animation start
+                starsBackground.appendChild(star);
+            }
+        }
+        createStars(); // Call on page load
+
+        startButton.addEventListener('click', () => {
+            // Fade out initial screen
+            initialScreen.classList.add('opacity-0');
+            
+            // Trigger initial confetti
+            confetti({
+                particleCount: 150,
+                spread: 180,
+                origin: { y: 0.6 }
+            });
+
+            setTimeout(() => {
+                initialScreen.classList.add('hidden');
+                // Fade in main content
+                mainContent.classList.remove('hidden');
+                setTimeout(() => {
+                    mainContent.classList.remove('opacity-0');
+                    document.body.classList.remove('overflow-hidden'); // Allow scrolling
+                    // Show scroll indicator after content loads
+                    scrollIndicator.classList.add('show');
+                }, 50);
+            }, 1000);
+        });
+
+        pizzaSlices.forEach(slice => {
+            slice.addEventListener('click', (event) => {
+                const message = sliceMessages[slice.id];
+                modalText.textContent = message;
+                modal.classList.remove('hidden');
+                
+                // Confetti burst from click location
+                confetti({
+                    particleCount: 70,
+                    spread: 90,
+                    origin: {
+                        x: event.clientX / window.innerWidth,
+                        y: event.clientY / window.innerHeight
+                    }
+                });
+
+                setTimeout(() => {
+                    modalContent.classList.remove('scale-95');
+                }, 10);
+            });
+        });
+
+        const closeModal = () => {
+            modalContent.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        };
+
+        closeModalButton.addEventListener('click', closeModal);
+        // Also close modal if clicking on the background
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Event listener for sending Anne's message
+        sendMessageButton.addEventListener('click', async () => {
+            const message = anneMessageInput.value.trim();
+            if (message) {
+                sendStatus.textContent = "Sending...";
+                sendStatus.className = "mt-4 text-sm text-yellow-400"; // Yellow for pending
+
+                try {
+                    const response = await fetch("http://in2.hostmc.fun:25944/send-message", {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            userId: "1314859737703125025", // Sending your ID for bot to ping
+                            senderName: "Anne", // The name to display in Discord
+                            message: message
+                        })
+                    });
+
+                    if (response.ok) {
+                        sendStatus.textContent = "Message sent successfully! Thank you for sharing!"; // More appreciative
+                        sendStatus.className = "mt-4 text-sm text-green-400"; // Green for success
+                        anneMessageInput.value = ''; // Clear input field
+                    } else {
+                        const errorData = await response.json();
+                        sendStatus.textContent = `Failed to send message: ${errorData.error || 'Unknown error'}. Please try again.`; // More empathetic error
+                        sendStatus.className = "mt-4 text-sm text-red-400"; // Red for error
+                    }
+                } catch (error) {
+                    console.error('Error sending message:', error);
+                    sendStatus.textContent = "Oops! Something went wrong. Could not connect to the server. Please try again later."; // More empathetic error
+                    sendStatus.className = "mt-4 text-sm text-red-400"; // Red for error
+                }
+            } else {
+                sendStatus.textContent = "Please type a message before sending, lovely."; // More gentle prompt
+                sendStatus.className = "mt-4 text-sm text-red-400"; // Red for error
+            }
+        });
+
+        // Hide scroll indicator when scrolled near bottom
+        mainContent.addEventListener('scroll', () => {
+            const scrollThreshold = 100; // Pixels from bottom to hide indicator
+            if (mainContent.scrollHeight - mainContent.scrollTop - mainContent.clientHeight < scrollThreshold) {
+                scrollIndicator.classList.remove('show');
+            } else {
+                scrollIndicator.classList.add('show');
+            }
+        });
+
+    </script>
+</body>
+</html>
