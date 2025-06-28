@@ -1,90 +1,701 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Happy Birthday!</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    body {
-      background-color: #1a1a2e;
-      overflow: hidden;
-    }
-
-    .typing-dots::after {
-      content: '';
-      display: inline-block;
-      width: 1em;
-      text-align: left;
-      animation: dots 1.2s steps(3, end) infinite;
-    }
-
-    @keyframes dots {
-      0% { content: ''; }
-      33% { content: '.'; }
-      66% { content: '..'; }
-      100% { content: '...'; }
-    }
-
-    .chat-bubble::after {
-      content: '';
-      position: absolute;
-      bottom: -15px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 0;
-      height: 0;
-      border-left: 15px solid transparent;
-      border-right: 15px solid transparent;
-      border-top: 15px solid #2d3748;
-    }
-  </style>
-</head>
-<body class="flex justify-center items-center min-h-screen font-sans text-gray-100">
-
-  <div id="introContainer" class="flex flex-col items-center opacity-0 transform translate-y-5 transition-all duration-1000 ease-out">
-    <img src="https://cdn.discordapp.com/attachments/1360488961759383622/1386732722633969795/1000098579-removebg-preview.png?ex=685ac6fd&is=6859757d&hm=26b4f2f7d2cebfebf7990ea11711458e8f969cc7cbf58c0a61e3f1033fbfc816&" 
-         alt="Character" 
-         class="max-w-xs h-auto rounded-xl shadow-2xl mb-8"/>
-
-    <div class="chat-bubble relative bg-gray-800 text-white p-6 rounded-xl shadow-lg max-w-xl text-center">
-      <span id="typingAnimationText" class="text-lg sm:text-2xl font-medium leading-relaxed"></span>
-      <span id="dots" class="typing-dots text-lg sm:text-2xl font-medium ml-1"></span>
-    </div>
-  </div>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const typingTextElement = document.getElementById('typingAnimationText');
-      const introContainer = document.getElementById('introContainer');
-      const dots = document.getElementById('dots');
-
-      const fullText = "So you actually opened it... You might not recognize me 👉🏻👈🏻 I didnt want to send from my acc caz i dont have confidence ig but i hope you like it.";
-
-      let charIndex = 0;
-      const typingSpeed = 60;
-
-      function type() {
-        if (charIndex < fullText.length) {
-          typingTextElement.textContent += fullText.charAt(charIndex);
-          charIndex++;
-          setTimeout(type, typingSpeed);
-        } else {
-          dots.style.display = 'none';
-          // Optional: proceed to birthday page after delay
-          setTimeout(() => {
-            window.location.href = "birthday.html"; // Change to your actual birthday page
-          }, 2000);
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>For Anne</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Raleway:wght@200;300;400&display=swap" rel="stylesheet">
+    <style>
+        /* Core Variables for a deep, sophisticated dark theme */
+        :root {
+            --dark-bg: #05050A; /* Even deeper, almost black */
+            --dark-surface: #151525; /* Richer dark for content elements, subtle blue hint */
+            --accent-pink: #FF6B8B; /* Slightly warmer, vibrant pink */
+            --accent-purple: #9B59B6; /* Elegant, slightly brighter purple */
+            --text-light: #F8F8F8; /* Pure off-white for body text */
+            --text-muted: #B0B0C0; /* Subtle grey for hints */
+            --gradient-main: linear-gradient(45deg, var(--accent-pink), var(--accent-purple));
+            --glow-filter: drop-shadow(0 0 12px rgba(255, 107, 139, 0.7)) drop-shadow(0 0 25px rgba(155, 89, 182, 0.6));
+            --border-subtle: rgba(255, 255, 255, 0.1); /* Slightly more pronounced subtle border */
+            --transition-speed-fast: 0.4s;
+            --transition-speed-normal: 0.8s;
+            --transition-speed-slow: 1.2s;
+            --transition-ease: cubic-bezier(0.25, 0.8, 0.25, 1); /* Professional easing function */
         }
-      }
 
-      // Reveal container, then start typing
-      setTimeout(() => {
-        introContainer.classList.remove('opacity-0', 'translate-y-5');
-        introContainer.classList.add('opacity-100', 'translate-y-0');
-        setTimeout(type, 1200);
-      }, 400);
-    });
-  </script>
+        /* Base Styles & Mobile-First Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden; /* Prevent horizontal scroll on mobile */
+            position: relative;
+            line-height: 1.75; /* Slightly increased for readability */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            padding-bottom: 150px; /* More space at bottom for final reveal */
+        }
+
+        /* Custom Scrollbar (Desktop specific, will be less noticeable on mobile) */
+        ::-webkit-scrollbar {
+            width: 12px; /* Wider for more presence */
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--dark-bg);
+            border-left: 1px solid rgba(255,255,255,0.05); /* Subtle track border */
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-purple);
+            border-radius: 6px; /* Softer corners */
+            border: 3px solid var(--dark-surface); /* More pronounced border */
+            transition: background var(--transition-speed-fast) var(--transition-ease);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-pink);
+        }
+
+        /* Background Particle/Star Field - Super Enhanced with Parallax */
+        .particle-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: -1;
+            opacity: 0.7;
+            perspective: 1000px; /* For 3D transformations */
+        }
+
+        .particle {
+            position: absolute;
+            background: radial-gradient(circle, var(--accent-pink) 0%, var(--accent-purple) 100%);
+            border-radius: 50%;
+            opacity: 0;
+            animation: particle-float linear infinite;
+            filter: blur(1px); /* More subtle blur */
+            box-shadow: 0 0 7px var(--accent-purple); /* Enhanced glow */
+        }
+
+        /* Parallax layer effect */
+        .particle[data-depth="1"] { transform: translateZ(-50px); opacity: 0.6; }
+        .particle[data-depth="2"] { transform: translateZ(-100px); opacity: 0.7; }
+        .particle[data-depth="3"] { transform: translateZ(-150px); opacity: 0.8; }
+        /* Data attributes for randomized sizes and depths */
+
+        @keyframes particle-float {
+            0% { transform: translateY(100vh) translateX(calc(var(--rand-x) * 1px)) rotate(0deg) scale(var(--start-scale)); opacity: 0; }
+            10% { opacity: var(--max-opacity); }
+            90% { opacity: var(--max-opacity); }
+            100% { transform: translateY(-10vh) translateX(calc(var(--rand-x) * 1px)) rotate(360deg) scale(var(--end-scale)); opacity: 0; }
+        }
+
+        /* Main Content Wrapper */
+        .content-wrapper {
+            max-width: 900px; /* Even wider for more grandeur */
+            margin: 0 auto;
+            padding: 40px; /* Increased padding */
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+
+        /* Hero/Welcome Section */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInContent 1.8s forwards var(--transition-ease); /* Longer, more dramatic animation */
+            text-align: center;
+            position: relative;
+            overflow: hidden; /* For possible future elements */
+        }
+
+        @keyframes fadeInContent {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-section h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3em, 9vw, 5.5em); /* Even larger and more responsive */
+            color: var(--accent-pink);
+            text-shadow: 0 0 25px rgba(255, 107, 139, 0.8); /* More intense shadow */
+            margin-bottom: 25px;
+            line-height: 1.1;
+            font-weight: 700;
+            letter-spacing: 1px; /* Subtle letter spacing for elegance */
+        }
+
+        .hero-section p {
+            font-family: 'Raleway', sans-serif;
+            font-size: clamp(1.2em, 4vw, 1.4em); /* More prominent text */
+            color: var(--text-muted);
+            max-width: 75%; /* Slightly narrower for better readability */
+            margin: 0 auto 50px auto;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        .scroll-down-hint {
+            margin-top: 80px; /* More space */
+            color: var(--text-muted);
+            font-size: 1.1em; /* Larger hint */
+            opacity: 0.9;
+            animation: bounce 2s infinite var(--transition-ease);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .scroll-down-hint .arrow {
+            display: block;
+            margin: 20px auto; /* More space */
+            width: 0;
+            height: 0;
+            border-left: 12px solid transparent; /* Larger arrow */
+            border-right: 12px solid transparent;
+            border-top: 18px solid var(--accent-purple);
+            animation: arrow-pulse 1.5s infinite ease-out; /* Pulsing arrow */
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-12px); } /* Deeper bounce */
+            60% { transform: translateY(-6px); }
+        }
+
+        @keyframes arrow-pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Interactive Section */
+        .interactive-section {
+            background-color: var(--dark-surface);
+            border-radius: 25px; /* Even softer corners */
+            padding: 60px 40px; /* More padding */
+            margin: 120px auto; /* More spacing for scroll reveal */
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(255,255,255,0.05); /* Deeper outer, subtle inner shadow */
+            border: 2px solid var(--border-subtle); /* More defined border */
+            opacity: 0;
+            transform: translateY(70px);
+            transition: opacity 1.2s var(--transition-ease), transform 1.2s var(--transition-ease); /* Smoother transition */
+            min-height: 400px; /* Ensure space for content */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .interactive-section::before {
+            content: '';
+            position: absolute;
+            top: -60%;
+            left: -60%;
+            width: 220%;
+            height: 220%;
+            background: radial-gradient(circle at center, rgba(155, 89, 182, 0.15) 0%, transparent 75%); /* Stronger glow */
+            transform: rotate(45deg);
+            opacity: 0;
+            transition: opacity 1.2s var(--transition-ease);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .interactive-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .interactive-section.is-visible::before {
+            opacity: 1;
+        }
+
+        .interactive-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.2em, 7vw, 3.8em);
+            color: var(--accent-purple);
+            margin-bottom: 35px;
+            filter: var(--glow-filter);
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+            letter-spacing: 0.5px;
+        }
+
+        /* The Core Interactive Element - The "Spark" */
+        .spark-button {
+            width: clamp(200px, 60vw, 280px); /* Larger, more impactful size */
+            height: clamp(200px, 60vw, 280px);
+            border-radius: 50%;
+            background: radial-gradient(circle at center, var(--accent-pink) 0%, var(--accent-purple) 80%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(1.3em, 5vw, 1.6em); /* Larger font */
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px; /* More letter spacing */
+            cursor: pointer;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.7), 0 0 60px var(--accent-pink); /* Deeper, wider shadow */
+            transition: all 0.6s var(--transition-ease); /* Smoother, longer transition */
+            position: relative;
+            overflow: hidden;
+            border: 4px solid var(--text-light); /* More pronounced border */
+            text-align: center;
+            padding: 20px;
+            z-index: 1;
+        }
+
+        .spark-button::before {
+            content: '';
+            position: absolute;
+            width: 200%; /* Even larger shimmer effect */
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 75%); /* Stronger shimmer */
+            border-radius: 50%;
+            top: -50%;
+            left: -50%;
+            opacity: 0;
+            transition: transform 1s var(--transition-ease), opacity 0.8s var(--transition-ease); /* Smoother shimmer transition */
+            transform: scale(0);
+            z-index: 0;
+        }
+
+        .spark-button:hover::before {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .spark-button:hover {
+            transform: scale(1.1); /* More pronounced hover effect */
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.9), 0 0 100px var(--accent-purple); /* Even deeper hover shadow */
+        }
+
+        .spark-button:active {
+            transform: scale(0.9); /* More pronounced active effect */
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5), 0 0 40px var(--accent-pink);
+        }
+
+        .spark-button span {
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 0 8px rgba(0,0,0,0.7); /* Stronger text shadow */
+        }
+
+        /* Message Display Area */
+        .message-display {
+            margin-top: 50px; /* More space */
+            background-color: var(--dark-bg);
+            border-radius: 20px; /* Softer corners */
+            padding: 40px; /* More padding */
+            border: 2px solid var(--border-subtle); /* More defined border */
+            text-align: left;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 1s var(--transition-ease), transform 1s var(--transition-ease); /* Smoother transition */
+            max-width: 90%; /* Wider message display */
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.4); /* Deeper shadow */
+            position: relative;
+            z-index: 1;
+        }
+
+        .message-display p {
+            font-family: 'Raleway', sans-serif;
+            font-size: clamp(1.05em, 4vw, 1.25em); /* Responsive font size, slightly larger */
+            color: var(--text-light);
+            line-height: 1.8;
+            margin-bottom: 1.2em; /* More space between paragraphs */
+            font-weight: 300;
+        }
+
+        .message-display p:last-of-type {
+            margin-bottom: 0;
+        }
+
+        .message-display .teasing-line {
+            font-family: 'Playfair Display', serif; /* Teasing line in Playfair */
+            font-style: italic;
+            color: var(--accent-pink);
+            margin-top: 30px; /* More space */
+            text-align: center;
+            font-size: clamp(1.1em, 3.8vw, 1.2em);
+            font-weight: 600;
+            text-shadow: 0 0 8px rgba(255, 107, 139, 0.4);
+        }
+
+        /* Final Section */
+        .final-section {
+            background: linear-gradient(135deg, var(--dark-surface), var(--dark-bg));
+            border-radius: 25px;
+            padding: 70px 40px; /* More padding */
+            margin: 120px auto 0 auto;
+            box-shadow: 0 0 60px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(255,255,255,0.08); /* Deeper outer, subtle inner shadow */
+            border: 3px solid var(--accent-purple); /* More prominent border */
+            opacity: 0;
+            transform: translateY(80px);
+            transition: opacity 1.5s var(--transition-ease), transform 1.5s var(--transition-ease); /* Longer, smoother transition */
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .final-section::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -30%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(255, 107, 139, 0.1) 0%, transparent 65%);
+            border-radius: 50%;
+            transform: rotate(-45deg);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .final-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .final-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.8em, 8vw, 5em); /* Larger and more impactful */
+            color: var(--accent-pink);
+            text-shadow: 0 0 30px rgba(255, 107, 139, 0.9); /* Stronger shadow */
+            margin-bottom: 30px;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+            letter-spacing: 1px;
+        }
+
+        .final-section p {
+            font-family: 'Raleway', sans-serif;
+            font-size: clamp(1.15em, 4.2vw, 1.4em);
+            color: var(--text-light);
+            line-height: 1.85;
+            max-width: 80%; /* Slightly narrower for better readability */
+            margin: 0 auto 40px auto;
+            font-weight: 300;
+            letter-spacing: 0.2px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .final-section .signature {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.6em, 5vw, 2.2em); /* Larger, more elegant signature */
+            color: var(--accent-purple);
+            font-style: italic;
+            margin-top: 40px;
+            text-shadow: 0 0 12px rgba(155, 89, 182, 0.7);
+            font-weight: 400;
+            position: relative;
+            z-index: 1;
+            letter-spacing: 1px;
+        }
+
+        /* Confetti Overlay */
+        .confetti-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100;
+            overflow: hidden;
+        }
+
+        .confetti-piece {
+            position: absolute;
+            animation: fall-confetti linear forwards;
+            opacity: 0;
+            border-radius: 50%; /* Default to circle for all */
+        }
+
+        /* Varied shapes for confetti */
+        .confetti-piece:nth-child(3n) { border-radius: 0; } /* Square */
+        .confetti-piece:nth-child(5n) { transform: rotate(45deg); border-radius: 0; } /* Diamond */
+        
+        .confetti-piece.type-circle { border-radius: 50%; }
+        .confetti-piece.type-square { border-radius: 0; }
+        .confetti-piece.type-diamond { border-radius: 0; transform: rotate(45deg); }
+
+        @keyframes fall-confetti {
+            0% { transform: translate(var(--x-start), var(--y-start)) rotate(0deg) scale(var(--start-scale)); opacity: 0; }
+            10% { opacity: 1; }
+            100% { transform: translate(var(--x-end), var(--y-end)) rotate(var(--end-rotate)) scale(var(--end-scale)); opacity: 0; }
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .content-wrapper {
+                padding: 25px 15px;
+            }
+
+            .interactive-section, .final-section {
+                padding: 45px 25px;
+                margin: 80px auto;
+            }
+
+            .hero-section h1 {
+                font-size: clamp(2.5em, 9.5vw, 4.5em);
+            }
+
+            .hero-section p {
+                font-size: clamp(1em, 4.2vw, 1.2em);
+                max-width: 90%;
+            }
+
+            .spark-button {
+                width: clamp(160px, 65vw, 240px);
+                height: clamp(160px, 65vw, 240px);
+            }
+
+            .message-display {
+                padding: 30px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .content-wrapper {
+                padding: 15px 10px;
+            }
+
+            .hero-section h1 {
+                font-size: clamp(2em, 10vw, 3.5em);
+            }
+
+            .hero-section p {
+                font-size: clamp(0.9em, 4.5vw, 1.1em);
+                max-width: 95%;
+            }
+
+            .spark-button {
+                width: clamp(130px, 70vw, 200px);
+                height: clamp(130px, 70vw, 200px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particle-bg" id="particle-bg"></div>
+    <div class="confetti-overlay" id="confetti-overlay"></div>
+
+    <div class="content-wrapper">
+        <section class="hero-section">
+            <h1>For Anne.</h1>
+            <p>Thanks for atleast opening it 
+This took me a month to make hope you like it. Scroll down to begin your journey into a quiet celebration.</p>
+            <div class="scroll-down-hint">
+                Scroll to uncover
+                <span class="arrow"></span>
+            </div>
+        </section>
+
+        <section class="interactive-section" id="interactive-section">
+            <h2>Tap the Spark of Curiosity...</h2>
+            <div class="spark-button" id="sparkButton">
+                <span>Touch Me Gently</span>
+            </div>
+            <div class="message-display" id="messageDisplay">
+                <p>Hello Anne, it's your birthday! And yes, before you ask, this isn't from *him*. Or him. Or that other guys you might know. It's just from me who you might not know who sees how truly incredible you are, even when your attention is... elsewhere. 😉</p>
+                <p>You have this radiant energy, a unique blend of wit, kindness, and that effortless charm that draws people in. It's truly captivating to watch you light up a room, even when you're just being yourself.</p>
+                <p class="teasing-line"></p>
+            </div>
+        </section>
+
+        <section class="final-section" id="final-message-section">
+            <h2>The MSG</h2>
+            <p>You've uncovered the core of this little surprise. This entire experience was crafted to remind you of just how unique and wonderful you are.</p>
+            <p>May your special day be filled with genuine happiness, unexpected delights, and all the joy you truly deserve. Here's to a year even brighter than your amazing spirit!</p>
+            <p class="signature">hope you liked it i actually thought i wont do anything but my mind and heart just wont give up no matter how much i try but i still know my limits so i never try much</p>
+        </section>
+    </div>
+
+    <audio id="sparkSound" src="https://assets.mixkit.co/sfx/preview/mixkit-magical-fairy-bell-578.mp3" preload="auto"></audio>
+
+    <script>
+        // --- Scroll Reveal Logic ---
+        const sectionsToAnimate = document.querySelectorAll('.interactive-section, .final-section');
+
+        const observerOptions = {
+            root: null, // viewport
+            rootMargin: '0px',
+            threshold: 0.2 // Element is visible when 20% of it is in viewport
+        };
+
+        const sectionObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    // Optional: If you only want the animation to play once, uncomment next line
+                    // observer.unobserve(entry.target);
+                } else {
+                    // Optional: If you want sections to hide when scrolled out of view
+                    // entry.target.classList.remove('is-visible');
+                }
+            });
+        }, observerOptions);
+
+        sectionsToAnimate.forEach(section => {
+            sectionObserver.observe(section);
+        });
+
+        // --- Spark Button Interaction ---
+        const sparkButton = document.getElementById('sparkButton');
+        const messageDisplay = document.getElementById('messageDisplay');
+        const sparkSound = document.getElementById('sparkSound');
+        let messageRevealed = false;
+
+        sparkButton.addEventListener('click', () => {
+            if (!messageRevealed) {
+                messageDisplay.style.opacity = 1;
+                messageDisplay.style.transform = 'translateY(0)';
+                sparkButton.querySelector('span').textContent = "Hide Message";
+                if (sparkSound) {
+                    sparkSound.currentTime = 0; // Rewind to start
+                    sparkSound.play().catch(e => console.error("Audio play failed:", e)); // Play sound, handle potential autoplay policy errors
+                }
+                messageRevealed = true;
+            } else {
+                messageDisplay.style.opacity = 0;
+                messageDisplay.style.transform = 'translateY(40px)'; /* Match initial state for smooth hide */
+                sparkButton.querySelector('span').textContent = "Touch Me Gently";
+                messageRevealed = false;
+            }
+        });
+
+        // --- Background Particle Generation (with Parallax) ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const particleBg = document.getElementById('particle-bg');
+            const numParticles = 120; // More particles for a denser field
+
+            for (let i = 0; i < numParticles; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                const size = Math.random() * 5 + 1.5; // 1.5px to 6.5px
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.setProperty('--rand-x', `${(Math.random() - 0.5) * 400}`); // Wider horizontal drift
+                particle.style.animationDuration = `${Math.random() * 25 + 30}s`; // 30-55s float duration
+                particle.style.animationDelay = `${Math.random() * 30}s`; // Staggered start, longer delay range
+
+                const depth = Math.floor(Math.random() * 3) + 1; // 1, 2, or 3 for different parallax layers
+                particle.setAttribute('data-depth', depth);
+                particle.style.setProperty('--start-scale', `${Math.random() * 0.5 + 0.5}`); // Initial scale 0.5-1.0
+                particle.style.setProperty('--end-scale', `${Math.random() * 0.5 + 0.5}`); // Final scale 0.5-1.0
+                particle.style.setProperty('--max-opacity', `${Math.random() * 0.4 + 0.5}`); // Max opacity 0.5-0.9
+
+                particleBg.appendChild(particle);
+            }
+
+            // Parallax effect on mouse move
+            document.addEventListener('mousemove', (e) => {
+                const offsetX = (e.clientX / window.innerWidth - 0.5) * 40; // Max 40px movement
+                const offsetY = (e.clientY / window.innerHeight - 0.5) * 40;
+
+                particleBg.querySelectorAll('.particle').forEach(particle => {
+                    const depth = parseInt(particle.getAttribute('data-depth'));
+                    const strength = depth * 0.1; // Deeper particles move more
+                    particle.style.transform = `translate3d(${offsetX * strength}px, ${offsetY * strength}px, -${depth * 50}px)`;
+                });
+            });
+        });
+
+        // --- Confetti Burst ---
+        function triggerConfettiBurst(duration = 2000, density = 60) {
+            const confettiOverlay = document.getElementById('confetti-overlay');
+            const colors = [
+                'var(--accent-pink)',
+                'var(--accent-purple)',
+                '#FFD700', /* Gold */
+                '#00FFFF', /* Cyan */
+                '#FF69B4', /* Hot Pink */
+                '#8A2BE2'  /* Blue Violet */
+            ];
+            const shapes = ['circle', 'square', 'diamond'];
+            
+            // Clear existing confetti
+            confettiOverlay.innerHTML = '';
+
+            for (let i = 0; i < density; i++) {
+                const piece = document.createElement('div');
+                const shape = shapes[Math.floor(Math.random() * shapes.length)];
+                piece.classList.add('confetti-piece', `type-${shape}`);
+                piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                
+                const startX = Math.random() * window.innerWidth;
+                const startY = -40; // Start further above view
+                const endX = startX + (Math.random() - 0.5) * 800; // Wider horizontal spread
+                const endY = window.innerHeight + 80; // Fall further past view
+
+                piece.style.setProperty('--x-start', `${startX}px`);
+                piece.style.setProperty('--y-start', `${startY}px`);
+                piece.style.setProperty('--x-end', `${endX}px`);
+                piece.style.setProperty('--y-end', `${endY}px`);
+                piece.style.setProperty('--start-scale', `${Math.random() * 0.5 + 0.5}`); // Random initial scale
+                piece.style.setProperty('--end-scale', `${Math.random() * 0.5 + 0.5}`); // Random final scale
+                piece.style.setProperty('--end-rotate', `${Math.random() * 1080 + 360}deg`); // Rotate more 360-1440 deg
+
+                piece.style.animationDuration = `${Math.random() * 2.5 + 3.5}s`; // 3.5-6s fall
+                piece.style.animationDelay = `${Math.random() * 1.5}s`; // Staggered start
+                piece.style.width = piece.style.height = `${Math.random() * 8 + 6}px`; // 6-14px size
+
+                confettiOverlay.appendChild(piece);
+
+                // Remove after animation to keep DOM clean
+                piece.addEventListener('animationend', () => {
+                    piece.remove();
+                });
+            }
+        }
+
+        // Trigger confetti when the final message section becomes visible
+        const finalSectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !entry.target.dataset.confettiTriggered) {
+                    triggerConfettiBurst(5000, 200); // 5 second burst, 200 pieces for maximum impact
+                    entry.target.dataset.confettiTriggered = 'true'; // Mark as triggered
+                }
+            });
+        }, { threshold: 0.4 }); // Trigger when 40% of final section is visible
+
+        finalSectionObserver.observe(document.getElementById('final-message-section'));
+    </script>
 </body>
 </html>
